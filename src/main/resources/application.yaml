@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: media-service
+server:
+  port: 8086
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    preferIpAddress: true
+
+
+CLOUDINARY_URL: cloudinary://182781555865953:-Ak8Y4pE68x--vBirWauIID6Xbg@dziizjlqs
