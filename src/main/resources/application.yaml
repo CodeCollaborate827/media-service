@@ -12,4 +12,4 @@ eureka:
     preferIpAddress: true
 
 
-CLOUDINARY_URL: cloudinary://182781555865953:-Ak8Y4pE68x--vBirWauIID6Xbg@dziizjlqs
+CLOUDINARY_URL:  cloudinary://<api-key>:<api-secret>@<cloud_name>
