@@ -2,7 +2,8 @@ package com.chat.media_service.exception;
 
 public enum ErrorCode {
 
-  GATEWAY_1("Token is invalid", 400);
+  MEDIA_ERROR1("Error when write bytes to file", 500),
+  MEDIA_ERROR2("Error when uploading resource to Cloudinary", 500);
 
 
   private final String errorMessage;
