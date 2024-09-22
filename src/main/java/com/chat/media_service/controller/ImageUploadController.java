@@ -15,16 +15,14 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ImageUploadController {
 
-    private final MediaService mediaService;
+  private final MediaService mediaService;
 
+  @PostMapping("/image")
+  public Mono<ResponseEntity<CommonResponse>> uploadImage(
+      @RequestHeader(required = false) String operation,
+      @RequestHeader(required = false) String requestId,
+      @RequestPart("image") Mono<FilePart> filePartMono) {
 
-    @PostMapping("/image")
-    public Mono<ResponseEntity<CommonResponse>> uploadImage(@RequestHeader(required = false) String operation,
-                                                            @RequestHeader(required = false) String requestId,
-                                                            @RequestPart("image") Mono<FilePart> filePartMono
-
-    ) {
-        return mediaService.uploadImage(operation, requestId, filePartMono);
-    }
-
+    return mediaService.uploadImage(operation, requestId, filePartMono);
+  }
 }

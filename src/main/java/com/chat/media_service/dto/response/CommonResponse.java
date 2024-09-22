@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CommonResponse {
-    private ErrorCode errorCode;
-    private String message;
-    private String requestId;
-    private Object data;
+  private ErrorCode errorCode;
+  private String message;
+  private String requestId;
+  private Object data;
 }

@@ -8,8 +8,7 @@ import org.springframework.data.mongodb.repository.config.EnableReactiveMongoRep
 @EnableReactiveMongoRepositories
 public class MediaServiceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(MediaServiceApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(MediaServiceApplication.class, args);
+  }
 }
