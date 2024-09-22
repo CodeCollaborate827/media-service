@@ -1,6 +1,11 @@
 spring:
   application:
     name: media-service
+  profiles:
+    active: local
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/media_service
 server:
   port: 8086
 
