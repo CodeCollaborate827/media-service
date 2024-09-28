@@ -1,14 +1,7 @@
 package com.chat.media_service.service;
 
 import com.chat.media_service.dto.response.CommonResponse;
-import com.chat.media_service.exception.ApplicationException;
-import com.chat.media_service.exception.ErrorCode;
 import com.chat.media_service.repository.MediaResourceRepository;
-import com.chat.media_service.utils.FileUtils;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -29,7 +22,7 @@ public class MediaService {
   public Mono<ResponseEntity<CommonResponse>> uploadImage(
       String operation, String requestId, Mono<FilePart> filePart) {
 
-    return createFileFromFilePart(filePart)
+    return readBytesFromFile(filePart)
         .flatMap(cloudinaryService::uploadResource)
         .doOnNext(mediaResource -> mediaResource.setOperation(operation))
         .flatMap(mediaResourceRepository::save)
@@ -46,35 +39,18 @@ public class MediaService {
             });
   }
 
-  private String generateRandomFileName(String originalName) {
-    String newName = UUID.randomUUID().toString();
-    String extension = FileUtils.getFileExtension(originalName);
-    return newName + extension;
-  }
 
-  private Mono<File> createFileFromFilePart(Mono<FilePart> filePartMono) {
+  private Mono<byte[]> readBytesFromFile(Mono<FilePart> filePartMono) {
     return filePartMono.flatMap(
         filePart -> {
           Mono<DataBuffer> reduce = filePart.content().reduce(DataBuffer::write);
-
-          return reduce.flatMap(
+          return reduce.map(
               dataBuffer -> {
                 byte[] bytes = new byte[dataBuffer.readableByteCount()];
                 dataBuffer.read(bytes);
                 // Release the DataBuffer to prevent memory leaks
                 DataBufferUtils.release(dataBuffer);
-
-                // create file and write bytes to it
-                String randomFileName = generateRandomFileName(filePart.filename());
-                File file = new File(randomFileName);
-                log.info("Transferring content......");
-
-                try {
-                  Files.write(file.toPath(), bytes);
-                  return Mono.just(file);
-                } catch (IOException e) {
-                  throw new ApplicationException(ErrorCode.MEDIA_ERROR1);
-                }
+                return bytes;
               });
         });
   }

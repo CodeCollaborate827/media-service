@@ -25,4 +25,14 @@ public class ImageUploadController {
 
     return mediaService.uploadImage(operation, requestId, filePartMono);
   }
+
+  @PostMapping("/image2")
+  public Mono<ResponseEntity<CommonResponse>> test1() {
+    CommonResponse commonResponse = CommonResponse.builder()
+            .message("Hello")
+            .data("wow")
+            .build();
+
+    return Mono.just(ResponseEntity.ok(commonResponse));
+  }
 }
