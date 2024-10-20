@@ -2,7 +2,7 @@ spring:
   application:
     name: media-service
   profiles:
-    active: local
+    active: cloudinary
   data:
     mongodb:
       uri: mongodb://localhost:27017/media_service
